@@ -1,0 +1,56 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-2">
+        <span>Filter by: </span><br/>
+        <input [(ngModel)]="listFilter" type="text" />
+      </div>
+      <div class="col-sm-2">
+        <span>Currency: </span>
+        <select [(ngModel)]="currency" (change)="onCurrencyChange()" class="form-control" id="exampleFormControlSelect1">
+          <option value="USD">USD $</option>
+          <option value="JPY">JPY &yen;</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4" *ngIf="listFilter !== ''">
+        <h4>Filtered by: {{listFilter}}</h4>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table" *ngIf="getProducts().length > 0; else noProducts">
+        <thead>
+          <tr>
+            <th><button (click)="toggleImage()" class="btn btn-primary">{{showingImage ? "Hide" : "Show"}}
+                Image</button></th>
+            <th>Product</th>
+            <th>Code</th>
+            <th>Available</th>
+            <th>Price <span [innerHTML]="'(' + getCurrencyDisplayString() + ')'"></span></th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of getProducts()">
+            <td><img *ngIf="showingImage" [src]="product.imageUrl" [title]="product.productName"
+                [style.width.px]="imageWidth" [style.margin.px]="imageMargin"></td>
+            <td>{{ product.productName }}</td>
+            <td>{{ product.productCode | uppercase }}</td>
+            <td>{{ product.releaseDate }}</td>
+            <td>{{ getCurrencyAmount(product.price) | currency: currency }}</td>
+            <td>{{ product.starRating }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noProducts>
+        <div>
+          <p>No products are currently available. Please check back later.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
