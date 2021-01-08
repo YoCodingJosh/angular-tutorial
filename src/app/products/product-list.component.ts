@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 
-import productData from "src/api/products/products.json";
-
 import { IProduct } from "./product";
+
+import { ProductService } from './product.service';
 
 @Component({
   selector: "pm-products",
@@ -15,18 +15,32 @@ export class ProductListComponent implements OnInit {
   pageTitle: string = "Product List";
   currency: string = "USD";
   currencySymbol: string = "$";
-  products: IProduct[] = productData;
   imageWidth: number = 80;
   imageMargin: number = 2;
   showingImage: boolean = false;
-  listFilter: string = "";
+  filteredProducts: IProduct[];
+  products: IProduct[];
+  
+  private _listFilter: string = "";
 
-  ngOnInit(): void {
-    console.log("Konnichiwa!")
+  constructor(private productService: ProductService) {
   }
 
-  getProducts(): any[] {
-    return this.products;
+  ngOnInit(): void {
+    console.log("Konnichiwa!");
+
+    this.products = this.productService.getProducts();
+    this.filteredProducts = this.products;
+  }
+
+  get listFilter(): string {
+    return this._listFilter;
+  }
+
+  set listFilter(value: string) {
+    this._listFilter = value;
+
+    this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
   }
 
   toggleImage(): void {
@@ -56,5 +70,15 @@ export class ProductListComponent implements OnInit {
         // thankfully the japanese yen is kinda related to USD (1 JPY = ~0.01 USD)
         return Math.ceil(productPrice) * 100;
     }
+  }
+
+  performFilter(filterString: string): IProduct[] {
+    filterString = filterString.toLocaleLowerCase();
+
+    return this.products.filter((product: IProduct) => product.productName.toLocaleLowerCase().indexOf(filterString) !== -1);
+  }
+
+  onRatingClicked(value: string): void {
+    this.pageTitle = value;
   }
 }
