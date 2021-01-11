@@ -20,6 +20,7 @@ export class ProductListComponent implements OnInit {
   showingImage: boolean = false;
   filteredProducts: IProduct[];
   products: IProduct[];
+  errorMessage: string;
   
   private _listFilter: string = "";
 
@@ -29,7 +30,12 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     console.log("Konnichiwa!");
 
-    this.products = this.productService.getProducts();
+    this.productService.getProducts().subscribe({
+      next: products => this.products = products,
+      error: err => this.errorMessage = err,
+      complete: () => this.filteredProducts = this.products
+    });
+
     this.filteredProducts = this.products;
   }
 

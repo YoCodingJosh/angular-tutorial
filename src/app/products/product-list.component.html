@@ -10,7 +10,7 @@
       </div>
       <div class="col-sm-2">
         <span>Currency: </span>
-        <select [(ngModel)]="currency" (change)="onCurrencyChange()" class="form-control" id="exampleFormControlSelect1">
+        <select [(ngModel)]="currency" (change)="onCurrencyChange()" class="form-control">
           <option value="USD">USD $</option>
           <option value="JPY">JPY &yen;</option>
         </select>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="table-responsive">
-      <table class="table" *ngIf="products.length > 0; else noProducts">
+      <table class="table" *ngIf="filteredProducts.length > 0; else noProducts">
         <thead>
           <tr>
             <th><button (click)="toggleImage()" class="btn btn-primary">{{showingImage ? "Hide" : "Show"}}
