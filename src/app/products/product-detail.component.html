@@ -2,4 +2,19 @@
   <div class="card-header">
     {{pageTitle + ": " + product.productName}}
   </div>
+  <div class="card-body">
+    <img [src]="product.imageUrl" width="33%" style="display: inline; float: right;">
+    <p>Product Name: {{product.productName}}</p>
+    <p>Product ID: {{product.productId}}</p>
+    <p>Product Code: {{product.productCode}}</p>
+    <p>Release Date: {{product.releaseDate}}</p>
+    <p>Price: {{productService.getCurrencyAmount(product.price) | currency: productService.currentCurrency}}</p>
+    <p>Rating: <pm-star [rating]="product.starRating"></pm-star></p>
+    <p>Description: {{product.description}}</p>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-outline-secondary" (click)="goBack()">
+      <i class="fa fa-chevron-left"></i> Go Back
+    </button>
+  </div>
 </div>

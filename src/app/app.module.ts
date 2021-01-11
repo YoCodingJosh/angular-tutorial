@@ -11,6 +11,8 @@ import { StarComponent } from './shared/star.component';
 import { ProductDetailComponent } from './products/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
 
+import { ProductDetailGuard } from './products/product-detail.guard';
+
 import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
 
 @NgModule({
@@ -33,7 +35,8 @@ import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
       },
       {
         path: 'products/:id',
-        component: ProductDetailComponent
+        component: ProductDetailComponent,
+        canActivate: [ProductDetailGuard]
       },
       {
         path: 'welcome',

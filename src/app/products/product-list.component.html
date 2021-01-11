@@ -31,7 +31,7 @@
           <tr *ngFor="let product of filteredProducts">
             <td><img *ngIf="showingImage" [src]="product.imageUrl" [title]="product.productName"
                 [style.width.px]="imageWidth" [style.margin.px]="imageMargin"></td>
-            <td>{{ product.productName }}</td>
+            <td><a [routerLink]="['/products', product.productId]">{{ product.productName }}</a></td>
             <td>{{ product.productCode | uppercase | convertToSpaces:'-' }}</td>
             <td>{{ product.releaseDate }}</td>
             <td>{{ productService.getCurrencyAmount(product.price) | currency: productService.currentCurrency }}</td>
