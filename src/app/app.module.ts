@@ -26,7 +26,31 @@ import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule,
+    RouterModule.forRoot([
+      {
+        path: 'products',
+        component: ProductListComponent
+      },
+      {
+        path: 'products/:id',
+        component: ProductDetailComponent
+      },
+      {
+        path: 'welcome',
+        component: WelcomeComponent
+      },
+      {
+        path: '',
+        redirectTo: 'welcome',
+        pathMatch: 'full'
+      },
+      {
+        // TODO: proper 404 handling
+        path: '**',
+        redirectTo: 'welcome',
+        pathMatch: 'full'
+      }
+    ]),
   ],
   bootstrap: [AppComponent]
 })

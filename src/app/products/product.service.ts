@@ -9,9 +9,54 @@ import { IProduct } from './product';
   providedIn: 'root'
 })
 export class ProductService {
-  private productUrl = 'api/products/products.json';
+  private productUrl: string = 'api/products/products.json';
+
+  private _currentCurrency: string = "USD";
+  private _currentCurrencySymbol: string = "$";
 
   constructor(private http: HttpClient) {
+  }
+
+  get currentCurrency(): string {
+    return this._currentCurrency;
+  }
+
+  set currentCurrency(value: string) {
+    this._currentCurrency = value;
+  }
+
+  get currentCurrencySymbol(): string {
+    return this._currentCurrencySymbol;
+  }
+
+  set currentCurrencySymbol(value: string) {
+    this._currentCurrencySymbol = value;
+  }
+
+  getCurrencyDisplayString(): string {
+    return `${this._currentCurrency} ${this._currentCurrencySymbol}`;
+  }
+
+  updateCurrencySymbol(): void {
+    switch (this._currentCurrency) {
+      case "USD":
+        this._currentCurrencySymbol = "$";
+        break;
+      case "JPY":
+        this._currentCurrencySymbol = `&yen;`;
+        break;
+    }
+  }
+
+  getCurrencyAmount(productPrice: number): number {
+    switch (this._currentCurrency) {
+      case "USD":
+        // since we're already in USD
+        return productPrice;
+      case "JPY":
+        // thankfully the japanese yen is kinda related to USD (1 JPY = ~0.01 USD)
+        return Math.ceil(productPrice) * 100;
+    }
   }
 
   getProducts(): Observable<IProduct[]> {
