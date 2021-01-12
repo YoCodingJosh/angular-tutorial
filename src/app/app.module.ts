@@ -6,38 +6,20 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
-import { ProductListComponent } from './products/product-list.component';
-import { StarComponent } from './shared/star.component';
-import { ProductDetailComponent } from './products/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
 
-import { ProductDetailGuard } from './products/product-detail.guard';
-
-import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
+import { ProductModule } from './products/product.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent,
-    StarComponent,
-    ConvertToSpacesPipe,
-    ProductDetailComponent,
     WelcomeComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot([
-      {
-        path: 'products',
-        component: ProductListComponent
-      },
-      {
-        path: 'products/:id',
-        component: ProductDetailComponent,
-        canActivate: [ProductDetailGuard]
-      },
       {
         path: 'welcome',
         component: WelcomeComponent
@@ -54,6 +36,7 @@ import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
         pathMatch: 'full'
       }
     ]),
+    ProductModule,
   ],
   bootstrap: [AppComponent]
 })
